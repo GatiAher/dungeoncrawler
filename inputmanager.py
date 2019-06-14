@@ -94,8 +94,7 @@ class AttackCommand(AbstractCommand):
 
     def execute(self, event_type):
         if event_type == pygame.KEYDOWN:
-            dir_x, dir_y = pygame.mouse.get_pos()
-            self.reciever.new_player_attack(dir_x, dir_y)
+            self.reciever.space_action()
 
 
 class InputManager(object):

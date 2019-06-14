@@ -125,6 +125,9 @@ class AbstractRoom(object):
     def room_logic(self):
         pass
 
+    def space_action(self):
+        pass
+
 
     @classmethod
     def turn(cls, character, list, do_kill = False):
@@ -161,6 +164,10 @@ class MonsterRoom(AbstractRoom):
         self.num_tiles = random.randint(5, 20)
 
         self.room_cleared = False
+
+    def space_action(self):
+        dir_x, dir_y = pygame.mouse.get_pos()
+        self.new_player_attack(dir_x, dir_y)
 
     def new_player_attack(self, aim_x, aim_y):
         bullet = blocks.Bullet(self.player, aim_x, aim_y)
