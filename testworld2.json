@@ -1,0 +1,14 @@
+{"room_type" : -1,
+  "room_element" : 1,
+  "room_width" : 500,
+  "room_height" : 500,
+  "room_no_row" : 7,
+  "room_no_col" : 10,
+  "room_floorplan_0" : [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  "room_floorplan_1" : [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  "room_floorplan_2" : [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  "room_floorplan_3" : [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  "room_floorplan_4" : [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  "room_floorplan_5" : [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  "room_floorplan_6" : [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+}

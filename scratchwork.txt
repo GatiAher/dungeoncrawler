@@ -1,0 +1,5 @@
+5 types of tiles
+1 - unbreakable cover
+2 - crates
+3 - tiles
+4 - portals
