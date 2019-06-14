@@ -28,8 +28,8 @@ class AbstractRoom(object):
         self.all_sprites = pygame.sprite.Group()
         self.portals = pygame.sprite.Group()
 
-        self.room_no_row = 9
-        self.room_no_col = 9
+        self.room_no_row = 7
+        self.room_no_col = 13
 
         # create floorplan
         self.floorplan = [0] * self.room_no_row
@@ -42,8 +42,8 @@ class AbstractRoom(object):
                 if i == 0 or j == 0 or i == self.room_no_row - 1 or j == self.room_no_col - 1:
                     self.floorplan[i][j] = 1
 
-        self.room_width = 500
-        self.room_height = 500
+        self.room_width = 13 * 45
+        self.room_height = 7 * 45
 
         self.cell_width = self.room_width / self.room_no_col
         self.cell_height = self.room_height / self.room_no_row
@@ -189,11 +189,11 @@ class MonsterRoom(AbstractRoom):
         for i in range(self.num_crates):
             successful = False
             while not successful:
-                coor_x = random.randint(0, self.room_no_col - 1)
-                coor_y = random.randint(0, self.room_no_row - 1)
+                coor_x = random.randint(0, self.room_no_row - 1)
+                coor_y = random.randint(0, self.room_no_col - 1)
                 if self.floorplan[coor_x][coor_y] == 0:
                     self.floorplan[coor_x][coor_y] = 3
-                    crate = blocks.Crate(coor_x * self.cell_width, coor_y * self.cell_height)
+                    crate = blocks.Crate(coor_y * self.cell_width, coor_x * self.cell_height)
                     self.all_sprites.add(crate)
                     successful = True
 
@@ -201,11 +201,11 @@ class MonsterRoom(AbstractRoom):
         for i in range(self.num_tiles):
             successful = False
             while not successful:
-                coor_x = random.randint(0, self.room_no_col - 1)
-                coor_y = random.randint(0, self.room_no_row - 1)
+                coor_x = random.randint(0, self.room_no_row - 1)
+                coor_y = random.randint(0, self.room_no_col - 1)
                 if self.floorplan[coor_x][coor_y] == 0:
                     self.floorplan[coor_x][coor_y] = 4
-                    tile = blocks.Tile(coor_x * self.cell_width, coor_y * self.cell_height)
+                    tile = blocks.Tile(coor_y * self.cell_width, coor_x * self.cell_height)
                     self.all_sprites.add(tile)
                     successful = True
 
@@ -213,14 +213,24 @@ class MonsterRoom(AbstractRoom):
         for i in range(self.num_monsters):
             successful = False
             while not successful:
-                coor_x = random.randint(0, self.room_no_col - 1)
-                coor_y = random.randint(0, self.room_no_row - 1)
+                coor_x = random.randint(0, self.room_no_row - 1)
+                coor_y = random.randint(0, self.room_no_col - 1)
                 if self.floorplan[coor_x][coor_y] == 0:
                     self.floorplan[coor_x][coor_y] = 5
-                    monster = blocks.Monster(coor_x * self.cell_width, coor_y * self.cell_height)
+                    monster = blocks.Monster(coor_y * self.cell_width, coor_x * self.cell_height)
                     self.all_sprites.add(monster)
                     self.monsters.add(monster)
                     successful = True
+
+        for i in range(self.room_no_row):
+            print()
+            for j in range(self.room_no_col):
+                print(self.floorplan[i][j], end="")
+
+        print()
+        print()
+        print()
+
 
 
     def room_logic(self):
@@ -241,11 +251,11 @@ class MonsterRoom(AbstractRoom):
 
         for bullet in self.bullets:
             self.turn(bullet, self.all_sprites)
-
-        print(self.player.hp)
-
-        if self.player.hp <= 0:
-            game.Game.end_game()
+        #
+        print(self.cell_width)
+        #
+        # if self.player.hp <= 0:
+        #     game.Game.end_game()
 
 
 
