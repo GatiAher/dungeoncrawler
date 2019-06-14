@@ -89,7 +89,7 @@ class AbstractRoom(object):
             for j in range(self.room_no_col):
                 cell = self.floorplan[i][j]
                 if cell == 1:
-                    wall = blocks.Wall(self.cell_width, self.cell_height, j * self.cell_width, i * self.cell_height)
+                    wall = blocks.Wall(j * self.cell_width, i * self.cell_height)
                     self.all_sprites.add(wall)
                 if cell == "N" or cell == "S" or cell == "W" or cell == "E":
                     portal = self.directions.get(cell)
@@ -252,7 +252,7 @@ class MonsterRoom(AbstractRoom):
         for bullet in self.bullets:
             self.turn(bullet, self.all_sprites)
         #
-        print(self.cell_width)
+        # print(self.player.hp)
         #
         # if self.player.hp <= 0:
         #     game.Game.end_game()

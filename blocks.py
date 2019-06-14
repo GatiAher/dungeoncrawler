@@ -10,7 +10,10 @@ class Block(pygame.sprite.Sprite):
     def __init__(self, color, width, height, hp, speed, x, y):
         super().__init__()
 
-        self.image = pygame.Surface([width, height])
+        self.cell_width = 45
+        self.cell_height = 45
+
+        self.image = pygame.Surface([width * self.cell_width * 0.9, height * self.cell_height * 0.9])
         self.image.fill(color)
 
         self.rect = self.image.get_rect()
@@ -62,7 +65,7 @@ class Block(pygame.sprite.Sprite):
 class Bullet(Block):
 
     def __init__(self, owner, aim_x, aim_y):
-        super().__init__((209, 8, 18), 5, 10, 1, 10, owner.rect.centerx, owner.rect.centery)
+        super().__init__((209, 8, 18), 0.5, 0.5, 1, 10, owner.rect.centerx, owner.rect.centery)
 
         self.owner = owner
         self.ori_x = owner.rect.centerx
@@ -93,7 +96,7 @@ class Player:
     class __Player(Block):
 
         def __init__(self):
-            super().__init__((255, 255, 255), 15, 20, 20, 5, 0, 0)
+            super().__init__((255, 255, 255), 1, 1, 20, 5, 0, 0)
 
     instance = None
 
@@ -141,7 +144,7 @@ class Player:
 class Monster(Block):
 
     def __init__(self, x, y):
-        super().__init__((80, 216, 17), 15, 20, 3, 1, x, y)
+        super().__init__((80, 216, 17), 1, 1, 3, 1, x, y)
 
         self.player = Player()
         self.attack_counter = 60
@@ -196,8 +199,8 @@ class Monster(Block):
 
 class Wall(Block):
 
-    def __init__(self, width, height, x, y):
-        super().__init__((17, 215, 255), width, height, 0, 0, x, y)
+    def __init__(self, x, y):
+        super().__init__((17, 215, 255), 1, 1, 0, 0, x, y)
 
     def reaction_lr(self, block):
         if isinstance(block, Player) or isinstance(block, Monster):
@@ -214,7 +217,7 @@ class Wall(Block):
 class Crate(Block):
 
     def __init__(self, x, y):
-        super().__init__((240, 255, 168), 15, 20, 2, 0, x, y)
+        super().__init__((240, 255, 168), 1, 1, 2, 0, x, y)
 
     def reaction_lr(self, block):
         if isinstance(block, Player) or isinstance(block, Monster):
@@ -240,7 +243,7 @@ class Crate(Block):
 class Tile(Block):
 
     def __init__(self, x, y):
-        super().__init__((139, 232, 179), 15, 20, 0, 0, x, y)
+        super().__init__((139, 232, 179), 1, 1, 0, 0, x, y)
 
     def reaction_lr(self, block):
         if isinstance(block, Player) or isinstance(block, Monster):
@@ -262,7 +265,7 @@ class Portal(Block):
 
     def __init__(self, direction, next_room):
 
-        super().__init__((125, 7, 193), 15, 20, 0, 0, 0, 0)
+        super().__init__((125, 7, 193), 1, 1, 0, 0, 0, 0)
 
         self.is_active = True
         self.direction = direction
