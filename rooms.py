@@ -27,6 +27,7 @@ class AbstractRoom(object):
 
         self.all_sprites = pygame.sprite.Group()
         self.portals = pygame.sprite.Group()
+        self.bullets = pygame.sprite.Group()
 
         self.room_no_row = 7
         self.room_no_col = 13
@@ -125,8 +126,8 @@ class AbstractRoom(object):
     def room_logic(self):
         pass
 
-    def space_action(self):
-        pass
+    # def space_action(self):
+    #     pass
 
 
     @classmethod
@@ -146,6 +147,18 @@ class AbstractRoom(object):
 
         character.action_tb(hit_list)
 
+    def register_player_bullets(self, direction):
+        bullet_list = self.player.player_attack(direction)
+        for bullet in bullet_list:
+            self.all_sprites.add(bullet)
+            self.bullets.add(bullet)
+
+    def register_monster_bullets(self, monster):
+        bullet_list = monster.monster_attack(self.player)
+        for bullet in bullet_list:
+            self.all_sprites.add(bullet)
+            self.bullets.add(bullet)
+
 
 class MonsterRoom(AbstractRoom):
     """
@@ -156,8 +169,6 @@ class MonsterRoom(AbstractRoom):
 
         super().__init__(row, col, name)
 
-        self.bullets = pygame.sprite.Group()
-
         self.monsters = pygame.sprite.Group()
         self.num_monsters = random.randint(3, 7)
         self.num_crates = random.randint(5, 20)
@@ -165,19 +176,19 @@ class MonsterRoom(AbstractRoom):
 
         self.room_cleared = False
 
-    def space_action(self):
-        dir_x, dir_y = pygame.mouse.get_pos()
-        self.new_player_attack(dir_x, dir_y)
+    # def space_action(self):
+    #     dir_x, dir_y = pygame.mouse.get_pos()
+    #     self.new_player_attack(dir_x, dir_y)
 
-    def new_player_attack(self, aim_x, aim_y):
-        bullet = blocks.Bullet(self.player, aim_x, aim_y)
-        self.all_sprites.add(bullet)
-        self.bullets.add(bullet)
-
-    def new_monster_attack(self, monster):
-        bullet = blocks.Bullet(monster, self.player.rect.x, self.player.rect.y)
-        self.all_sprites.add(bullet)
-        self.bullets.add(bullet)
+    # def new_player_attack(self, aim_x, aim_y):
+    #     bullet = blocks.Bullet(self.player, aim_x, aim_y)
+    #     self.all_sprites.add(bullet)
+    #     self.bullets.add(bullet)
+    #
+    # def new_monster_attack(self, monster):
+    #     bullet = blocks.Bullet(monster, self.player.rect.x, self.player.rect.y)
+    #     self.all_sprites.add(bullet)
+    #     self.bullets.add(bullet)
 
     def assign_room_specific_elements(self):
 
@@ -222,14 +233,14 @@ class MonsterRoom(AbstractRoom):
                     self.monsters.add(monster)
                     successful = True
 
-        for i in range(self.room_no_row):
-            print()
-            for j in range(self.room_no_col):
-                print(self.floorplan[i][j], end="")
-
-        print()
-        print()
-        print()
+        # for i in range(self.room_no_row):
+        #     print()
+        #     for j in range(self.room_no_col):
+        #         print(self.floorplan[i][j], end="")
+        #
+        # print()
+        # print()
+        # print()
 
 
 
@@ -247,7 +258,7 @@ class MonsterRoom(AbstractRoom):
                 self.turn(monster, self.all_sprites)
                 monster.current_count += 1
                 if monster.current_count % monster.attack_counter == 0:
-                    self.new_monster_attack(monster)
+                    self.register_monster_bullets(monster)
 
         for bullet in self.bullets:
             self.turn(bullet, self.all_sprites)
@@ -295,6 +306,9 @@ class EndRoom(AbstractRoom):
     def room_logic(self):
         self.turn(self.player, self.all_sprites)
 
+        for bullet in self.bullets:
+            self.turn(bullet, self.all_sprites)
+
 
 class HomeRoom(AbstractRoom):
     """
@@ -307,3 +321,6 @@ class HomeRoom(AbstractRoom):
 
     def room_logic(self):
         self.turn(self.player, self.all_sprites)
+
+        for bullet in self.bullets:
+            self.turn(bullet, self.all_sprites)

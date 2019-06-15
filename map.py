@@ -99,11 +99,11 @@ class RoomMap(object):
         print()
         print()
 
-        for room in cls.room_list:
-            print("ROOM " + room.name)
-            for tar in list(room.directions.keys()):
-                if isinstance(room.directions[tar], blocks.Portal):
-                    portal = room.directions[tar]
-                    print("   PORTAL: " + portal.direction + " --> " + portal.next_room.name)
+        # for room in cls.room_list:
+        #     print("ROOM " + room.name)
+        #     for tar in list(room.directions.keys()):
+        #         if isinstance(room.directions[tar], blocks.Portal):
+        #             portal = room.directions[tar]
+        #             print("   PORTAL: " + portal.direction + " --> " + portal.next_room.name)
 
 

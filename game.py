@@ -18,13 +18,19 @@ class Game(object):
         display.Display.start()
         map.RoomMap.make_map()
         cls.current_room = map.RoomMap.map[2][2]
-        inputmanager.InputManager.command_dict.get(pygame.K_SPACE).give_current_room(cls.current_room)  # TODO
+        inputmanager.InputManager.command_dict.get(pygame.K_UP).give_current_room(cls.current_room)
+        inputmanager.InputManager.command_dict.get(pygame.K_DOWN).give_current_room(cls.current_room)
+        inputmanager.InputManager.command_dict.get(pygame.K_RIGHT).give_current_room(cls.current_room)
+        inputmanager.InputManager.command_dict.get(pygame.K_LEFT).give_current_room(cls.current_room)
         cls.run()
 
     @ classmethod
     def change_room(cls, new_room):
         cls.current_room = new_room
-        inputmanager.InputManager.command_dict.get(pygame.K_SPACE).give_current_room(cls.current_room)  # TODO
+        inputmanager.InputManager.command_dict.get(pygame.K_UP).give_current_room(cls.current_room)
+        inputmanager.InputManager.command_dict.get(pygame.K_DOWN).give_current_room(cls.current_room)
+        inputmanager.InputManager.command_dict.get(pygame.K_RIGHT).give_current_room(cls.current_room)
+        inputmanager.InputManager.command_dict.get(pygame.K_LEFT).give_current_room(cls.current_room)
         cls.current_room.start()
 
     @ classmethod

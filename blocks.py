@@ -60,26 +60,35 @@ class Block(pygame.sprite.Sprite):
         block.move_x()
         block.dx = 0
 
+    def get_direction_dx_dy(self, direction, target = None):
+        if direction == "N":
+            return 0, -1
+        if direction == "S":
+            return 0, 1
+        if direction == "E":
+            return 1, 0
+        if direction == "W":
+            return -1, 0
+        if direction == "A":
+            diff_x = target.rect.centerx - self.rect.centerx
+            diff_y = target.rect.centery - self.rect.centery
+            angle = math.atan2(diff_y, diff_x)
+
+            dx = math.cos(angle)
+            dy = math.sin(angle)
+
+            return dx, dy
+
+
 
 class Bullet(Block):
 
-    def __init__(self, owner, aim_x, aim_y):
+    def __init__(self, owner, dx, dy):
         super().__init__((209, 8, 18), 0.5, 0.5, 1, 10, owner.rect.centerx, owner.rect.centery)
 
         self.owner = owner
-
-
-        self.ori_x = owner.rect.centerx
-        self.ori_y = owner.rect.centery
-        self.aim_x = aim_x
-        self.aim_y = aim_y
-
-        diff_x = self.aim_x - self.ori_x
-        diff_y = self.aim_y - self.ori_y
-        angle = math.atan2(diff_y, diff_x)
-
-        self.dx = math.cos(angle)
-        self.dy = math.sin(angle)
+        self.dx = dx
+        self.dy = dy
 
 
     def action_lr(self, hit_list):
@@ -91,7 +100,11 @@ class Bullet(Block):
             block.reaction_tb(self)
 
 
-class Player:
+
+
+
+
+class Player(Block):
 
     class __Player(Block):
 
@@ -101,6 +114,7 @@ class Player:
     instance = None
 
     def __init__(self):
+        print("Created Player")
         if not Player.instance:
             Player.instance = Player.__Player()
 
@@ -113,6 +127,13 @@ class Player:
     def set_player(self, x, y):
         self.rect.x = x
         self.rect.y = y
+
+    def player_attack(self, direction):
+        bullet_list = []
+        dx, dy = self.get_direction_dx_dy(direction)
+        bullet_list.append(Bullet(self, dx, dy))
+
+        return bullet_list
 
     def action_lr(self, hit_list):
         for block in hit_list:
@@ -139,6 +160,11 @@ class Player:
             if isinstance(block.owner, Monster):
                 self.hp -= block.hp
                 block.kill()
+
+
+
+
+
 
 
 class Monster(Block):
@@ -162,6 +188,15 @@ class Monster(Block):
         else:
             self.dy = -1
 
+    def monster_attack(self, target):
+        plan_list = ["A"]
+        bullet_list = []
+        for plan in plan_list:
+            dx, dy = self.get_direction_dx_dy(plan, target)
+            bullet_list.append(Bullet(self, dx, dy))
+
+        return bullet_list
+
     def action_lr(self, hit_list):
         for block in hit_list:
             block.reaction_lr(self)
@@ -195,6 +230,26 @@ class Monster(Block):
 
         if self.hp <= 0:
             self.kill()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class Wall(Block):

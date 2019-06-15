@@ -84,7 +84,7 @@ class MoveLeftCommand(DirectionCommand):
             self.reciever.dx = 0
 
 
-class AttackCommand(AbstractCommand):
+class AbstractAttackCommand(AbstractCommand):
 
     def __init__(self):
         super().__init__(None)
@@ -93,8 +93,63 @@ class AttackCommand(AbstractCommand):
         self.reciever = cr
 
     def execute(self, event_type):
+        pass
+
+
+class AttackNorthCommand(AbstractAttackCommand):
+
+    def __init__(self):
+        super().__init__()
+
+    def give_current_room(self, cr):
+        self.reciever = cr
+
+    def execute(self, event_type):
+        pass
         if event_type == pygame.KEYDOWN:
-            self.reciever.space_action()
+            self.reciever.register_player_bullets("N")
+
+
+class AttackSouthCommand(AbstractAttackCommand):
+
+    def __init__(self):
+        super().__init__()
+
+    def give_current_room(self, cr):
+        self.reciever = cr
+
+    def execute(self, event_type):
+        pass
+        if event_type == pygame.KEYDOWN:
+            self.reciever.register_player_bullets("S")
+
+
+class AttackEastCommand(AbstractAttackCommand):
+
+    def __init__(self):
+        super().__init__()
+
+    def give_current_room(self, cr):
+        self.reciever = cr
+
+    def execute(self, event_type):
+        pass
+        if event_type == pygame.KEYDOWN:
+            self.reciever.register_player_bullets("E")
+
+
+class AttackWestCommand(AbstractAttackCommand):
+
+    def __init__(self):
+        super().__init__()
+
+    def give_current_room(self, cr):
+        self.reciever = cr
+
+    def execute(self, event_type):
+        pass
+        if event_type == pygame.KEYDOWN:
+            self.reciever.register_player_bullets("W")
 
 
 class InputManager(object):
@@ -105,7 +160,10 @@ class InputManager(object):
         pygame.K_s: MoveDownCommand(),
         pygame.K_d: MoveRightCommand(),
         pygame.K_a: MoveLeftCommand(),
-        pygame.K_SPACE: AttackCommand()
+        pygame.K_UP: AttackNorthCommand(),
+        pygame.K_DOWN: AttackSouthCommand(),
+        pygame.K_LEFT: AttackWestCommand(),
+        pygame.K_RIGHT: AttackEastCommand()
     }
 
     @ classmethod
