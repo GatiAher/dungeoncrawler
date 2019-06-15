@@ -61,13 +61,14 @@ class Block(pygame.sprite.Sprite):
         block.dx = 0
 
 
-
 class Bullet(Block):
 
     def __init__(self, owner, aim_x, aim_y):
         super().__init__((209, 8, 18), 0.5, 0.5, 1, 10, owner.rect.centerx, owner.rect.centery)
 
         self.owner = owner
+
+
         self.ori_x = owner.rect.centerx
         self.ori_y = owner.rect.centery
         self.aim_x = aim_x
@@ -88,7 +89,6 @@ class Bullet(Block):
     def action_tb(self, hit_list):
         for block in hit_list:
             block.reaction_tb(self)
-
 
 
 class Player:
